@@ -52,5 +52,14 @@
 		"price": 66,
 		"stock": 66,
 		"category": "category 6"
+	},
+	{
+		"id": 7,
+		"title": "Producto 7",
+		"description": "Descripcion producto 7",
+		"code": "007",
+		"price": "140",
+		"stock": "5",
+		"category": "cat7"
 	}
 ]

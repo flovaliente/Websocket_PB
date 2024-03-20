@@ -27,5 +27,5 @@ export const init = (httpServer) =>{
             console.log(`Se ha desconectado el cliente con id ${socketClient.id}`);
         });
     });
-    console.log('✅Server socket running');
+    console.log('✅ Server socket running');
 };

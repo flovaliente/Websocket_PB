@@ -7,12 +7,17 @@ const productManager = new ProductManager();
 
 // Get products
 productsRouter.get('/', async (req, res) =>{
-    const products = await productManager.getProducts();
-    const { limit } = req.query;
-    if(!limit)
-        res.status(200).json(products);
-    else
-        res.status(200).json(products.slice(0, parseInt(limit)));
+    try {
+        const products = await productManager.getProducts();
+        const { limit } = req.query;
+        if(!limit)
+            res.status(200).json(products);
+        else
+            res.status(200).json(products.slice(0, parseInt(limit)));
+    } catch (error) {
+        res.status(500).send('Internal server error');
+    }
+    
 });
 
 // Get product by id
@@ -22,14 +27,13 @@ productsRouter.get('/:pid', async (req, res) =>{
     if(product){
         return res.status(200).json(product);
     }else{
-        return res.status(404).send('Producto no encontrado.');
+        return res.status(404).send('Product not found.');
     }
 });
 
 // Add product
 productsRouter.post('/', async (req, res) => {
     try {
-        //const { body } = req;
         await productManager.addProduct(req.body);
         const newProducts = await productManager.getProducts();
         res.status(200).json(newProducts);
@@ -42,7 +46,6 @@ productsRouter.post('/', async (req, res) => {
 productsRouter.put('/:pid', async (req, res) => {
     try{
         const { pid } = req.params;
-        //const { body } = req;
         const updated = await productManager.updateProduct(pid, req.body);
         res.status(200).json(updated);
     } catch(error){
@@ -55,7 +58,7 @@ productsRouter.delete('/:pid', async (req, res) => {
     try{
         const { pid } = req.params;
         await productManager.deleteProduct(pid);
-        res.status(200).json({ success: 'Product borrado exitosamente.'});
+        res.status(200).json({ success: 'Product successfully deleted.'});
     }catch (error){
         res.status(404).json({ error: 'Product not found.'});
     }
